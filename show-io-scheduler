@@ -1,0 +1,8 @@
+#!/bin/bash
+
+# Show which I/O schedulers are currently in use.
+
+if [ -d /sys/block ]
+then
+  cat /sys/block/*/queue/scheduler | grep -v none  | cut -f 2 -d[ | cut -f1 -d] | sort -u
+fi
