@@ -18,10 +18,11 @@ START_SECONDS=$(date +%s)
 
 for MOUNT in $(df -lP | egrep -v '^Filesystem|tmpfs' | awk '{print $NF}')
 do
-  echo "$(date) - Touching ${MOUNT}/${TEST_FILE}"
-  touch ${MOUNT}/${TEST_FILE}
-  rm ${MOUNT}/${TEST_FILE}
-  echo "$(date) - Removed  ${MOUNT}/${TEST_FILE}"
+  TEST_FILE_ON_MOUNT="${MOUNT}/${TEST_FILE}"
+  echo "$(date) - Touching $TEST_FILE_ON_MOUNT"
+  touch $TEST_FILE_ON_MOUNT
+  rm $TEST_FILE_ON_MOUNT
+  echo "$(date) - Removed $TEST_FILE_ON_MOUNT"
 done
 
 END=$(date)
