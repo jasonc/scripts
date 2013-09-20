@@ -1,0 +1,34 @@
+#!/bin/bash
+
+# Usage: touch-test
+# Touches and deletes a file on each of the locally mounted file systems. 
+# This can help point out read-only mounts and poorly performing mounts.
+
+# Run as root
+if [ $EUID -ne 0 ]
+then
+  echo "Please run with sudo or as root."
+  exit 1
+fi
+
+TEST_FILE="touch-test-file"
+
+START=$(date)
+START_SECONDS=$(date +%s)
+
+for MOUNT in $(df -lP | egrep -v '^Filesystem|tmpfs' | awk '{print $NF}')
+do
+  echo "$(date) - Touching ${MOUNT}/${TEST_FILE}"
+  touch ${MOUNT}/${TEST_FILE}
+  rm ${MOUNT}/${TEST_FILE}
+  echo "$(date) - Removed  ${MOUNT}/${TEST_FILE}"
+done
+
+END=$(date)
+END_SECONDS=$(date +%s)
+TOTAL_SECONDS=$(expr $END_SECONDS - $START_SECONDS)
+
+echo
+echo "Start: $START"
+echo "End:   $END"
+echo "Total: $TOTAL_SECONDS seconds"
