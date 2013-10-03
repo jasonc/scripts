@@ -59,7 +59,7 @@ function backup_file () {
   if [ -e $1 ] 
   then
     BACKUP_FILE="/var/tmp/$(basename ${1}).$(date +%F).$$"
-    echo "Backing up $1 to $BACKUP_FILE"
+    echo "Backing up $1 to ${BACKUP_FILE}"
     cp $1 $BACKUP_FILE
   fi
 }
@@ -98,10 +98,10 @@ then
 fi
 
 # Create the basic config for the bonded device.
-backup_file ${BOND_DEVICE_FILE}
+backup_file $BOND_DEVICE_FILE
 echo "DEVICE=${BOND_DEVICE}" > $BOND_DEVICE_FILE
 echo "ONBOOT=yes" >> $BOND_DEVICE_FILE
-echo 'BONDING_OPTS="mode=1 miimon=50 updelay=100"' >> $BOND_DEVICE_FILE
+echo "BONDING_OPTS=\"${BONDING_OPTS}"\" >> $BOND_DEVICE_FILE
 echo "NM_CONTROLLED=no" >> $BOND_DEVICE_FILE
 
 # Take the remaining required configuration from the source device and append it to the bond device.
