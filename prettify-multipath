@@ -49,7 +49,7 @@ do
     if [ $(grep -c ${WWID} ${MULTIPATH_CONF_FILE}) -eq 0 ]
     then
       ALIAS="${VG}_${LAST_FOUR_DIGITS}"
-      # On rare occasions, the last four digits of a WWID in a volume group can be repeated.  If so, used the last five digits.
+      # On rare occasions, the last four digits of a WWID in a volume group can be repeated.  If so, use the last five digits.
       if [ $(grep -c ${ALIAS} ${MULTIPATH_CONF_FILE}) -gt 0 ]
       then
         ALIAS="${VG}_${LAST_FIVE_DIGITS}"
