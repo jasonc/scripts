@@ -27,7 +27,7 @@ done
 
 END=$(date)
 END_SECONDS=$(date +%s)
-TOTAL_SECONDS=$(expr $END_SECONDS - $START_SECONDS)
+TOTAL_SECONDS=$(($END_SECONDS - $START_SECONDS))
 
 echo
 echo "Start: $START"

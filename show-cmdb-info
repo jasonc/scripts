@@ -35,7 +35,7 @@ echo "Architecture${FIELD_SEPARATOR}$(uname -m)"
 # Memory:
 # Assumes MB are being reported by dmidecode.
 MEMORY_IN_MB=$(dmidecode --type memory | grep -e '^\sSize:' | grep -v "No" | awk '{sum+=$2} END{printf("%d\n",sum)}')
-MEMORY_IN_GB=$(expr $MEMORY_IN_MB / 1024)
+MEMORY_IN_GB=$(($MEMORY_IN_MB / 1024))
 echo "Memory in GB${FIELD_SEPARATOR}${MEMORY_IN_GB}"
 
 # CPU info:
@@ -49,9 +49,9 @@ do
   THREADS=$(grep 'physical id' /proc/cpuinfo | grep ": ${PHYSICAL_CPU}$" | wc -l)
   echo "CPU ${PHYSICAL_CPU} Cores${FIELD_SEPARATOR}${CORES}"
   echo "CPU ${PHYSICAL_CPU} Threads${FIELD_SEPARATOR}${THREADS}"
-  TOTAL_PHYSICAL_CPUS=$(expr $TOTAL_PHYSICAL_CPUS + 1)
-  TOTAL_CORES=$(expr $TOTAL_CORES + $CORES)
-  TOTAL_THREADS=$(expr $TOTAL_THREADS + $THREADS)
+  TOTAL_PHYSICAL_CPUS=$(($TOTAL_PHYSICAL_CPUS + 1))
+  TOTAL_CORES=$(($TOTAL_CORES + $CORES))
+  TOTAL_THREADS=$(($TOTAL_THREADS + $THREADS))
 done
 echo "Total Physical CPUs${FIELD_SEPARATOR}${TOTAL_PHYSICAL_CPUS}"
 echo "Total Cores${FIELD_SEPARATOR}${TOTAL_CORES}"

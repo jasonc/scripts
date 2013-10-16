@@ -14,7 +14,7 @@ function round() {
   DECIMAL=$(echo $1 | cut -f2 -d.)
   if [ $DECIMAL -gt 4 ]
   then
-    INTEGER=$(expr $INTEGER + 1)
+    INTEGER=$(($INTEGER + 1))
   fi
 
   echo $INTEGER
