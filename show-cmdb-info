@@ -6,19 +6,15 @@
 #   -c	Ouput in csv format.
 
 # Run as root
-if [ $EUID -ne 0 ]
-then
-  echo "Please run with sudo or as root."
+[ $EUID -eq 0 ] || {
+  echo 'Please run with sudo or as root.'
   exit 1
-fi
+}
 
-FIELD_SEPARATOR=": "
+FIELD_SEPARATOR=': '
 
 # Pass in -c for CSV format
-if [ "$1" = "-c" ]
-then
-  FIELD_SEPARATOR=","
-fi
+[ "$1" = '-c' ] && FIELD_SEPARATOR=','
 
 # Host name
 echo "Hostname${FIELD_SEPARATOR}$(uname -n)"

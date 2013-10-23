@@ -16,19 +16,17 @@
 #     /dev/mapper/datavg_1234
 
 # Run as root
-if [ $EUID -ne 0 ]
-then
-  echo "Please run with sudo or as root."
+[ $EUID -eq 0 ] || {
+  echo 'Please run with sudo or as root.'
   exit 1
-fi
+}
 
-MULTIPATH_CONF_FILE="/etc/multipath.conf"
+MULTIPATH_CONF_FILE='/etc/multipath.conf'
 
-if [ ! -e ${MULTIPATH_CONF_FILE} ]
-then
+[ -e ${MULTIPATH_CONF_FILE} ] || {
   echo "${MULTIPATH_CONF_FILE} not found.  Exiting."
   exit 1
-fi
+}
 
 # Run the multipath command once and cache the output.
 MULTIPATH_TEMP_FILE=$(mktemp --suffix -$(basename $0))

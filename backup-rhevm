@@ -5,8 +5,8 @@
 # Where to place the backups.
 BACKUP_DIR=/var/rhevm-backups/$(uname -n)
 
-# Set BACKUP_REPORTS to 1 if you are using RHEV reports, otherwise set it to 0.
-BACKUP_REPORTS=0
+# Set BACKUP_REPORTS to true if you are using RHEV reports, otherwise set it to false.
+BACKUP_REPORTS=false
 
 # How many days to retain the backup files.
 DAYS_TO_RETAIN_BACKUPS=7
@@ -19,19 +19,17 @@ CONFIG_BACKUP_FILE="$BACKUP_DIR/config_${BACKUP_DATE}.tar.gz"
 REPORTS_CONFIG_BACKUP_FILE="$BACKUP_DIR/reports_config_${BACKUP_DATE}.tar.gz"
 
 # Run as root
-if [ $EUID -ne 0 ]
-then
-  echo "Please run with sudo or as root."
+[ $EUID -eq 0 ] || {
+  echo 'Please run with sudo or as root.'
   exit 1
-fi
+}
 
-# If the backup backup directory does not exist, create it.
-if [ ! -d $BACKUP_DIR ]
-then
+# Create the backup backup directory if it does not exist.
+[ -d $BACKUP_DIR ] || {
   mkdir -p $BACKUP_DIR
   chmod 775 $BACKUP_DIR
   chgrp wheel $BACKUP_DIR
-fi
+}
 
 # Backup the database
 cd /usr/share/ovirt-engine/dbscripts
@@ -46,7 +44,7 @@ CONFIG_FILES="/etc/ovirt-engine/ /etc/sysconfig/ovirt-engine /etc/yum/pluginconf
 # Create the tar file.
 tar czPf $CONFIG_BACKUP_FILE $CONFIG_FILES
 
-if [ $BACKUP_REPORTS -eq 1 ]
+if $BACKUP_REPORTS
 then
   CONFIG_FILES_FOR_REPORTS="/usr/share/ovirt-engine-reports/reports/users/rhevm-002dadmin.xml /usr/share/ovirt-engine-reports/default_master.properties /usr/share/jasperreports-server-pro/buildomatic"
   tar czPf $REPORTS_CONFIG_BACKUP_FILE $CONFIG_FILES_FOR_REPORTS

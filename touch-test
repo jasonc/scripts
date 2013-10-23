@@ -5,13 +5,12 @@
 # This can help point out read-only mounts and poorly performing mounts.
 
 # Run as root
-if [ $EUID -ne 0 ]
-then
-  echo "Please run with sudo or as root."
+[ $EUID -eq 0 ] || {
+  echo 'Please run with sudo or as root.'
   exit 1
-fi
+}
 
-TEST_FILE="touch-test-file"
+TEST_FILE='touch-test-file'
 
 START=$(date)
 START_SECONDS=$(date +%s)

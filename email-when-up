@@ -4,8 +4,8 @@
 # This script send an email when the server/host/device is reachable over the network.
 
 usage() {
-  echo "Usage: $0 -e EMAIL_ADDRESS -h HOST" 1>&2
-  exit 1
+  echo "Usage: $0 -e EMAIL_ADDRESS -h HOST" >&2
+  exit
 }
 
 while getopts ":e:h:" opt; do

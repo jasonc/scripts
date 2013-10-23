@@ -4,20 +4,19 @@
 # Takes a configured NIC and partners it with a second NIC to create a bonded pair.
 
 # Run as root
-if [ $EUID -ne 0 ]
-then
-  echo "Please run with sudo or as root."
+[ $EUID -eq 0 ] || {
+  echo 'Please run with sudo or as root.'
   exit 1
-fi
+}
 
 usage() {
-  echo "Usage: $0 [ -s SOURCE_DEVICE ] [ -p PARTNER_SLAVE_DEVICE ] [ -b BOND_DEVICE ] [-r]" 1>&2
-  echo "" 1>&2
-  echo "Arguments: " 1>&2
-  echo "  -s	The source NIC that is already configured.  Default value if not specified: eth0" 1>&2
-  echo "  -p	The second NIC to pair with the source NIC.  Default value if not specified: eth1" 1>&2
-  echo "  -b	The bond to create.  Default value if not specified: bond0" 1>&2
-  echo "  -r	Restart networking after the bond has been configured." 1>&2
+  echo "Usage: $0 [ -s SOURCE_DEVICE ] [ -p PARTNER_SLAVE_DEVICE ] [ -b BOND_DEVICE ] [-r]" >&2
+  echo >&2
+  echo 'Arguments: ' >&2
+  echo '  -s	The source NIC that is already configured.  Default value if not specified: eth0' >&2
+  echo '  -p	The second NIC to pair with the source NIC.  Default value if not specified: eth1' >&2
+  echo '  -b	The bond to create.  Default value if not specified: bond0' >&2
+  echo '  -r	Restart networking after the bond has been configured.' >&2
   exit 1
 }
 
@@ -25,7 +24,7 @@ usage() {
 SOURCE_SLAVE_DEVICE=eth0
 PARTNER_SLAVE_DEVICE=eth1
 BOND_DEVICE=bond0
-RESTART_NETWORKING=0
+RESTART_NETWORKING=false
 
 while getopts ":s:p:b:r" opt; do
   case "${opt}" in
@@ -39,7 +38,7 @@ while getopts ":s:p:b:r" opt; do
       BOND_DEVICE=${OPTARG}
       ;;
     r)
-      RESTART_NETWORKING=1
+      RESTART_NETWORKING=true
       ;;
     *)
       usage
@@ -53,7 +52,7 @@ IFCFG_PATH=/etc/sysconfig/network-scripts
 BOND_DEVICE_FILE=${IFCFG_PATH}/ifcfg-${BOND_DEVICE}
 SOURCE_SLAVE_DEVICE_FILE=${IFCFG_PATH}/ifcfg-${SOURCE_SLAVE_DEVICE}
 PARTNER_SLAVE_DEVICE_FILE=${IFCFG_PATH}/ifcfg-${PARTNER_SLAVE_DEVICE}
-BONDING_OPTS="mode=1 miimon=50 updelay=100"
+BONDING_OPTS='mode=1 miimon=50 updelay=100'
 
 function backup_file () {
   if [ -e $1 ] 
@@ -115,7 +114,7 @@ make_slave_device_file $SOURCE_SLAVE_DEVICE $SOURCE_SLAVE_DEVICE_FILE $BOND_DEVI
 backup_file $PARTNER_SLAVE_DEVICE_FILE
 make_slave_device_file $PARTNER_SLAVE_DEVICE $PARTNER_SLAVE_DEVICE_FILE $BOND_DEVICE
 
-if [ $RESTART_NETWORKING -eq 1 ]
+if $RESTART_NETWORKING
 then
   service network restart
 fi
