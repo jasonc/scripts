@@ -3,7 +3,7 @@
 # Usage: tail-db2diag
 # Performs a tail -f on the current db2 diag log file.
 
-DB2_DIAG_LOG="`ls -rt /db2/*/db2dump/db2diag* 2>/dev/null | tail -1`"
+DB2_DIAG_LOG=$(ls -rt /db2/*/db2dump/db2diag* 2>/dev/null | tail -1)
 
 if [ -e "$DB2_DIAG_LOG" ]
 then

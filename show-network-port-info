@@ -21,7 +21,7 @@ NICS=$@
 [ -z "$NICS" ] && {
   # Get a list of physical NICS on the server that are UP.  Also, ignore bonded,
   # loopback, usb, virtual, tagged (@), and bridged interfaces.
-  NICS=`ip link | grep ^[0-9] | grep 'state UP' | cut -d: -f2 | egrep -v 'bond|lo|usb|@|vnet|vir|br' | sort | xargs`
+  NICS=$(ip link | grep ^[0-9] | grep 'state UP' | cut -d: -f2 | egrep -v 'bond|lo|usb|@|vnet|vir|br' | sort | xargs)
 }
 
 # Loop through the NICs.

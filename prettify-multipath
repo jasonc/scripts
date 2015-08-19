@@ -3,7 +3,7 @@
 # Usage: prettify-multipath
 #
 # Real world Usage:
-#   cp /etc/multipath.conf /etc/multipath.conf.`date +%F` && \
+#   cp /etc/multipath.conf /etc/multipath.conf.$(date +%F) && \
 #   prettify-multipath | tee -a /etc/multipath.conf && vi /etc/multipath.conf
 #
 # Generates multipath configuration stanzas containing aliases in this format:
