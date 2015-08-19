@@ -19,10 +19,10 @@ VGS=$@
 
 function round() {
   # Returns a rounded number
-  INTEGER=$(echo $1 | cut -f1 -d.)
+  local INTEGER=$(echo $1 | cut -f1 -d.)
   [ -z "$INTEGER" ] && INTEGER=0
 
-  DECIMAL=$(echo $1 | cut -s -f2 -d.)
+  local DECIMAL=$(echo $1 | cut -s -f2 -d.)
   [ -z "$DECIMAL" ] && DECIMAL=0
   [ "$DECIMAL" -gt 4 ] && INTEGER=$(($INTEGER + 1))
   echo $INTEGER

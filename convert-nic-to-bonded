@@ -57,7 +57,7 @@ BONDING_OPTS='mode=1 miimon=50 updelay=100'
 function backup_file () {
   if [ -e "$1" ] 
   then
-    BACKUP_FILE="/var/tmp/$(basename ${1}).$(date +%F).$$"
+    local BACKUP_FILE="/var/tmp/$(basename ${1}).$(date +%F).$$"
     echo "Backing up $1 to ${BACKUP_FILE}"
     cp $1 $BACKUP_FILE
   fi
@@ -73,9 +73,9 @@ function exit_if_file_does_not_exist () {
 
 function make_slave_device_file () {
   # Pass in slave device, slave device file, bond device.
-  S_DEVICE=$1
-  S_FILE=$2
-  BOND_D=$3
+  local S_DEVICE=$1
+  local S_FILE=$2
+  local BOND_D=$3
   echo "DEVICE=${S_DEVICE}" > $S_FILE
   echo "BOOTPROTO=none" >> $S_FILE
   echo "ONBOOT=yes" >> $S_FILE

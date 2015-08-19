@@ -5,18 +5,12 @@
 
 function round() {
   # Returns a rounded number
-  INTEGER=$(echo $1 | cut -f1 -d.)
-  if [ -z $INTEGER ] 
-  then
-    INTEGER=0
-  fi
+  local INTEGER=$(echo $1 | cut -f1 -d.)
+  [ -z "$INTEGER" ] && INTEGER=0
 
-  DECIMAL=$(echo $1 | cut -f2 -d.)
-  if [ $DECIMAL -gt 4 ]
-  then
-    INTEGER=$(($INTEGER + 1))
-  fi
-
+  local DECIMAL=$(echo $1 | cut -s -f2 -d.)
+  [ -z "$DECIMAL" ] && DECIMAL=0
+  [ "$DECIMAL" -gt 4 ] && INTEGER=$(($INTEGER + 1))
   echo $INTEGER
 }
 
