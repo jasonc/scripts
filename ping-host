@@ -7,7 +7,7 @@
 
 
 # Help
-if [ -z $1 ] || [ "$1" = '-h' ] || [ "$1" = '--help' ]
+if [ -z "$1" ] || [ "$1" = '-h' ] || [ "$1" = '--help' ]
 then
   echo 'Usage: ping-host HOST [HOSTN]...' >&2
   echo 'Retuns 0 if the hosts respond to ping or 1 if any of them fail to respond.' >&2
@@ -37,7 +37,7 @@ RETURN_CODE=0
 for HOST in $@
 do
   PING_RESULT=$($PING $HOST $PING_SUFFIX_ARGS 2>&1 | egrep "$GREP_PATTERN|unknown host" | cut -d, -f3 | wc -l)
-  [ $PING_RESULT -eq 0 ] || {
+  [ "$PING_RESULT" -eq 0 ] || {
     RETURN_CODE=1
     echo "$HOST down"
   }

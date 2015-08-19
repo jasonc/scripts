@@ -33,7 +33,7 @@ SECONDS_TO_SLEEP=60
 while [ true ]
 do
   ~/scripts/ping-host $HOST >/dev/null 2>&1
-  if [ $? -eq 0 ]
+  if [ "$?" -eq 0 ]
   then
     echo "${HOST} is up!  $(date)"
     echo "${HOST} is up!  $(date)" | mailx -s "${HOST} is up." $EMAIL_ADDRESS

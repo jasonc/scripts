@@ -23,13 +23,13 @@ GB=$(round $(echo $KB/1024/1024      | bc -l | sed -e "s/\(\.[0-9]\).*/\1/g"))
 TB=$(round $(echo $KB/1024/1024/1024 | bc -l | sed -e "s/\(\.[0-9]\).*/\1/g"))
 
 # Use the largest human readable size to display
-if [ $TB -gt 0 ]
+if [ "$TB" -gt 0 ]
 then
   TOTAL_DISK_SPACE_USED="${TB}T"
-elif [ $GB -gt 0 ]
+elif [ "$GB" -gt 0 ]
 then
   TOTAL_DISK_SPACE_USED="${GB}G"
-elif [ $MB -gt 0 ]
+elif [ "$MB" -gt 0 ]
 then
   TOTAL_DISK_SPACE_USED="${MB}M"
 else
