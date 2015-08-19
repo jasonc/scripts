@@ -4,7 +4,7 @@
 # Takes a configured NIC and partners it with a second NIC to create a bonded pair.
 
 # Run as root
-[ $EUID -eq 0 ] || {
+[ "$EUID" -eq 0 ] || {
   echo 'Please run with sudo or as root.'
   exit 1
 }
@@ -55,7 +55,7 @@ PARTNER_SLAVE_DEVICE_FILE=${IFCFG_PATH}/ifcfg-${PARTNER_SLAVE_DEVICE}
 BONDING_OPTS='mode=1 miimon=50 updelay=100'
 
 function backup_file () {
-  if [ -e $1 ] 
+  if [ -e "$1" ] 
   then
     BACKUP_FILE="/var/tmp/$(basename ${1}).$(date +%F).$$"
     echo "Backing up $1 to ${BACKUP_FILE}"
@@ -64,7 +64,7 @@ function backup_file () {
 }
 
 function exit_if_file_does_not_exist () {
-  if [ ! -e $1 ] 
+  if [ ! -e "$1" ] 
   then
     echo "$1 does not exist.  Exiting."
     exit 1

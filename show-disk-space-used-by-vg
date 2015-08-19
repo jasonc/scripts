@@ -7,9 +7,9 @@
 
 # If a list of volume groups is provided, use those.
 VGS=$@
-[ -z $VGS ] && {
+[ -z "$VGS" ] && {
   # Run as root
-  [ $EUID -eq 0 ] || {
+  [ "$EUID" -eq 0 ] || {
     echo 'Please run with sudo or as root.'
     exit 1
   }
@@ -20,10 +20,11 @@ VGS=$@
 function round() {
   # Returns a rounded number
   INTEGER=$(echo $1 | cut -f1 -d.)
-  [ -z $INTEGER ] && INTEGER=0
+  [ -z "$INTEGER" ] && INTEGER=0
 
-  DECIMAL=$(echo $1 | cut -f2 -d.)
-  [ $DECIMAL -gt 4 ] && INTEGER=$(($INTEGER + 1))
+  DECIMAL=$(echo $1 | cut -s -f2 -d.)
+  [ -z "$DECIMAL" ] && DECIMAL=0
+  [ "$DECIMAL" -gt 4 ] && INTEGER=$(($INTEGER + 1))
   echo $INTEGER
 }
 
@@ -40,13 +41,13 @@ do
   TB=$(round $(echo $KB/1024/1024/1024 | bc -l | sed -e "s/\(\.[0-9]\).*/\1/g"))
 
   # Use the largest human readable size to display
-  if [ $TB -gt 0 ]
+  if [ "$TB" -gt 0 ]
   then
     echo "$VG ${TB}T" >> $TMPFILE
-  elif [ $GB -gt 0 ]
+  elif [ "$GB" -gt 0 ]
   then
     echo "$VG ${GB}G" >> $TMPFILE
-  elif [ $MB -gt 0 ]
+  elif [ "$MB" -gt 0 ]
   then
     echo "$VG ${MB}M" >> $TMPFILE
   else

@@ -19,13 +19,13 @@ CONFIG_BACKUP_FILE="$BACKUP_DIR/config_${BACKUP_DATE}.tar.gz"
 REPORTS_CONFIG_BACKUP_FILE="$BACKUP_DIR/reports_config_${BACKUP_DATE}.tar.gz"
 
 # Run as root
-[ $EUID -eq 0 ] || {
+[ "$EUID" -eq 0 ] || {
   echo 'Please run with sudo or as root.'
   exit 1
 }
 
 # Create the backup backup directory if it does not exist.
-[ -d $BACKUP_DIR ] || {
+[ -d "$BACKUP_DIR" ] || {
   mkdir -p $BACKUP_DIR
   chmod 775 $BACKUP_DIR
   chgrp wheel $BACKUP_DIR

@@ -5,7 +5,7 @@
 # This can help point out read-only mounts and poorly performing mounts.
 
 # Run as root
-[ $EUID -eq 0 ] || {
+[ "$EUID" -eq 0 ] || {
   echo 'Please run with sudo or as root.'
   exit 1
 }

@@ -16,15 +16,15 @@
 #     /dev/mapper/datavg_1234
 
 # Run as root
-[ $EUID -eq 0 ] || {
+[ "$EUID" -eq 0 ] || {
   echo 'Please run with sudo or as root.'
   exit 1
 }
 
 MULTIPATH_CONF_FILE='/etc/multipath.conf'
 
-[ -e ${MULTIPATH_CONF_FILE} ] || {
-  echo "${MULTIPATH_CONF_FILE} not found.  Exiting."
+[ -e "$MULTIPATH_CONF_FILE" ] || {
+  echo "$MULTIPATH_CONF_FILE not found.  Exiting."
   exit 1
 }
 
