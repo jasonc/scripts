@@ -18,9 +18,8 @@ do
   while read -r LINE
   do
     # Skip lines that are commented out.
-    [[ "${LINE}" =~ ^#.* ]] && {
-      continue
-    }
+    [[ "${LINE}" =~ ^#.* ]] && continue
+
     # Only print URLs that return a 200 HTTP response code.
     curl -sI ${LINE} | head -1 | grep '200' &>/dev/null
     [[ "${?}" -eq 0 ]] && echo $LINE
